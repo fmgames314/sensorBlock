@@ -6,7 +6,7 @@ import requests
 import traceback
 from getmac import get_mac_address
 import hashlib
-import Adafruit_BMP.BMP085 as BMP085 # Imports the BMP library
+import bmp180
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
 GPIO.setwarnings(False) # Ignore warning for now
@@ -45,7 +45,8 @@ GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(15,GPIO.RISING,callback=button_on_callback) 
 
 # Create an 'object' containing the BMP180 data
-sensor = BMP085.BMP085()
+sensor = bmp180.bmp180(0x77)
+ 
 
 
 
@@ -82,9 +83,9 @@ async def consumer_handler(websocket,state):
 async def producer_handler(websocket,state):
     while True:
         try:
-            temp_c = sensor.read_temperature()
+            temp_c = sensor.get_temp()
             temp_f = round(9.0/5.0 * temp_c + 32,2)
-            pressure = sensor.read_pressure()/100
+            pressure = sensor.get_pressure()/100
             #load dictionary
             state["sensor_data"]["temp_f"] = temp_f
             state["sensor_data"]["pressure"] = pressure
@@ -95,7 +96,7 @@ async def producer_handler(websocket,state):
             output_dict["MyID"] = state["ID"]
             output_dict["device_table"] = state["sensor_data"]
             await sendPacketToWSClient(websocket,"list_of_sensor_data",output_dict)
-            await asyncio.sleep(.5)
+            await asyncio.sleep(.3)
         except Exception as error:
             traceback.print_exc()
             await asyncio.sleep(2)
