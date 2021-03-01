@@ -1,0 +1,68 @@
+Metadata-Version: 2.1
+Name: bmp280
+Version: 0.0.3
+Summary: Python library for the BMP280 temperature and pressure sensor
+Home-page: http://www.pimoroni.com
+Author: Philip Howard
+Author-email: phil@pimoroni.com
+License: MIT
+Keywords: Raspberry Pi
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Operating System :: POSIX :: Linux
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development
+Classifier: Topic :: System :: Hardware
+Requires-Dist: i2cdevice (>=0.0.6)
+
+BMP280 Temperature, Pressure, & Altitude Sensor
+===============================================
+
+|Build Status| |Coverage Status| |PyPi Package| |Python Versions|
+
+Suitable for measuring ambient temperature, barometric pressure, and
+altitude, the BMP280 is a basic weather sensor.
+
+Installing
+==========
+
+Stable library from PyPi:
+
+-  Just run ``sudo pip install bmp280``
+
+Latest/development library from GitHub:
+
+-  ``git clone https://github.com/pimoroni/bmp280-python``
+-  ``cd bmp280-python``
+-  ``sudo ./install.sh``
+
+.. |Build Status| image:: https://travis-ci.com/pimoroni/bmp280-python.svg?branch=master
+   :target: https://travis-ci.com/pimoroni/bmp280-python
+.. |Coverage Status| image:: https://coveralls.io/repos/github/pimoroni/bmp280-python/badge.svg?branch=master
+   :target: https://coveralls.io/github/pimoroni/bmp280-python?branch=master
+.. |PyPi Package| image:: https://img.shields.io/pypi/v/bmp280.svg
+   :target: https://pypi.python.org/pypi/bmp280
+.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/bmp280.svg
+   :target: https://pypi.python.org/pypi/bmp280
+
+0.0.3
+-----
+
+* Migrate to i2cdevice>=0.0.6 set/get API
+
+0.0.2
+-----
+
+* Added `get_altitude` method
+* Corrected pressure to hPa
+
+0.0.1
+-----
+
+* Initial Release
+
+

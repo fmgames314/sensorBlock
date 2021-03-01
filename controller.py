@@ -6,7 +6,13 @@ import requests
 import traceback
 from getmac import get_mac_address
 import hashlib
-import bmp180
+#for bmp280
+from bmp280 import BMP280
+try:
+    from smbus2 import SMBus
+except ImportError:
+    from smbus import SMBus
+#GPIO setup
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
 GPIO.setwarnings(False) # Ignore warning for now
@@ -45,7 +51,8 @@ GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(15,GPIO.RISING,callback=button_on_callback) 
 
 # Create an 'object' containing the BMP180 data
-sensor = bmp180.bmp180(0x77)
+bus = SMBus(1)
+sensor = BMP280(i2c_dev=bus)
  
 
 
@@ -83,9 +90,9 @@ async def consumer_handler(websocket,state):
 async def producer_handler(websocket,state):
     while True:
         try:
-            temp_c = sensor.get_temp()
-            temp_f = round(9.0/5.0 * temp_c + 32,2)
-            pressure = sensor.get_pressure()/100
+            temp_c = sensor.get_temperature()
+            temp_f = round(9.0/5.0 * temp_c + 32,3)
+            pressure = round(sensor.get_pressure(),3)
             #load dictionary
             state["sensor_data"]["temp_f"] = temp_f
             state["sensor_data"]["pressure"] = pressure
