@@ -38,11 +38,17 @@ def motion_callback(channel):
 def button_on_callback(channel):
     state = getState()
     state["sensor_data"]["button"] = "1"
+    time.sleep(5)
+    state["sensor_data"]["button"] = "2"
 def button_off_callback(channel):
     state = getState()
     state["sensor_data"]["button"] = "0"
+    time.sleep(5)
+    state["sensor_data"]["button"] = "2"    
 
 #setup teh GPIO pins
+GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
+GPIO.add_event_detect(7,GPIO.RISING,callback=motion_callback) 
 GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
 GPIO.add_event_detect(11,GPIO.RISING,callback=motion_callback) 
 GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
